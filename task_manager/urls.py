@@ -1,13 +1,10 @@
 from django.contrib import admin
-from django.http import HttpResponse
 from django.urls import path
 
-
-def index(request):
-    return HttpResponse("Hello, Hexlet Task Manager!")
+from .views import IndexView
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", index, name="index"),
+    path("", IndexView.as_view(), name="index"),
 ]
