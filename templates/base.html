@@ -22,15 +22,41 @@
 
         <div class="collapse navbar-collapse" id="navbarMain">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+            <!-- Users -->
             <li class="nav-item">
-              <a class="nav-link" href="#">{% trans "Users" %}</a>
+              <a class="nav-link" href="{% url 'users:list' %}">
+                {% trans "Users" %}
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">{% trans "Sign in" %}</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">{% trans "Sign up" %}</a>
-            </li>
+
+            {% if request.user.is_authenticated %}
+              <!-- Logout -->
+              <li class="nav-item">
+                <form method="post"
+                      action="{% url 'logout' %}"
+                      class="d-inline">
+                  {% csrf_token %}
+                  <button class="nav-link btn btn-link p-0" type="submit">
+                    {% trans "Sign out" %}
+                  </button>
+                </form>
+              </li>
+            {% else %}
+              <!-- Login -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">
+                  {% trans "Sign in" %}
+                </a>
+              </li>
+
+              <!-- Registration -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:create' %}">
+                  {% trans "Sign up" %}
+                </a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </div>

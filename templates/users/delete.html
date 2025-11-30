@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Delete user" %}{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">{% trans "Delete user" %}</h1>
+  <p>
+    {% blocktrans with username=object.username %}
+      Are you sure you want to delete user "{{ username }}"?
+    {% endblocktrans %}
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">
+      {% trans "Yes, delete" %}
+    </button>
+  </form>
+{% endblock %}
