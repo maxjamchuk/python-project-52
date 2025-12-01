@@ -5,7 +5,9 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django_filters.views import FilterView
 
+from .filters import TaskFilter
 from .forms import TaskForm
 from .models import Task
 
@@ -65,3 +67,18 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
+
+class TaskListView(LoginRequiredMixin, FilterView):
+    model = Task
+    template_name = "tasks/list.html"
+    context_object_name = "tasks"
+    filterset_class = TaskFilter
+
+    def get_queryset(self):
+        qs = (
+            super()
+            .get_queryset()
+            .select_related("status", "author", "executor")
+            .prefetch_related("labels")
+        )
+        return qs
