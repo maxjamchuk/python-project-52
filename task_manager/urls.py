@@ -11,4 +11,5 @@ urlpatterns = [
     path("", include("users.auth_urls")),
     path("statuses/", include("statuses.urls")),
     path("tasks/", include("tasks.urls")),
+    path("labels/", include("labels.urls")),
 ]

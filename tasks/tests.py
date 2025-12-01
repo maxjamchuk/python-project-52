@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
+from labels.models import Label
 from statuses.models import Status
 from .models import Task
 
@@ -106,3 +107,21 @@ class TaskCrudTests(TestCase):
         response = self.client.post(url)
         self.assertRedirects(response, reverse("tasks:list"))
         self.assertTrue(Task.objects.filter(pk=task.pk).exists())
+
+    def test_task_create_with_labels(self):
+        label1 = Label.objects.create(name="bug")
+        label2 = Label.objects.create(name="feature")
+
+        url = reverse("tasks:create")
+        data = {
+            "name": "Task with labels",
+            "description": "",
+            "status": self.status.pk,
+            "executor": self.user2.pk,
+            "labels": [label1.pk, label2.pk],
+        }
+        response = self.client.post(url, data)
+        self.assertRedirects(response, reverse("tasks:list"))
+
+        task = Task.objects.get(name="Task with labels")
+        self.assertEqual(set(task.labels.all()), {label1, label2})
