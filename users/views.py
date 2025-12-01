@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -59,8 +60,16 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         return super().dispatch(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, _("User has been successfully deleted"))
-        return super().delete(request, *args, **kwargs)
+        self.object = self.get_object()
+        try:
+            messages.success(self.request, _("User has been successfully deleted"))
+            return super().delete(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(
+                self.request,
+                _("It is not possible to delete a user because it is in use"),
+            )
+            return redirect("users:list")
 
 
 class UserLoginView(LoginView):

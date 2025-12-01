@@ -38,6 +38,13 @@
                 </a>
               </li>
 
+              <!-- Tasks: только для залогиненных -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'tasks:list' %}">
+                  {% trans "Tasks" %}
+                </a>
+              </li>
+
               <!-- Logout -->
               <li class="nav-item">
                 <form method="post"

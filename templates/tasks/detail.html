@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ task.name }}{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">{{ task.name }}</h1>
+
+  <dl class="row">
+    <dt class="col-sm-3">{% trans "Status" %}</dt>
+    <dd class="col-sm-9">{{ task.status.name }}</dd>
+
+    <dt class="col-sm-3">{% trans "Author" %}</dt>
+    <dd class="col-sm-9">{{ task.author.username }}</dd>
+
+    <dt class="col-sm-3">{% trans "Executor" %}</dt>
+    <dd class="col-sm-9">{{ task.executor.username|default:"—" }}</dd>
+
+    <dt class="col-sm-3">{% trans "Created at" %}</dt>
+    <dd class="col-sm-9">{{ task.created_at|date:"Y-m-d H:i" }}</dd>
+  </dl>
+
+  {% if task.description %}
+    <h2 class="h5 mt-4 mb-2">{% trans "Description" %}</h2>
+    <p>{{ task.description|linebreaksbr }}</p>
+  {% endif %}
+
+  <div class="mt-4">
+    <a class="btn btn-outline-secondary" href="{% url 'tasks:list' %}">
+      {% trans "Back to list" %}
+    </a>
+    <a class="btn btn-outline-primary" href="{% url 'tasks:update' task.pk %}">
+      {% trans "Edit" %}
+    </a>
+    {% if request.user == task.author %}
+      <a class="btn btn-outline-danger" href="{% url 'tasks:delete' task.pk %}">
+        {% trans "Delete" %}
+      </a>
+    {% endif %}
+  </div>
+{% endblock %}
