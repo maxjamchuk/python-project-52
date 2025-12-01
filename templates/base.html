@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarMain">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-            <!-- Users -->
+            <!-- Users: доступен всем -->
             <li class="nav-item">
               <a class="nav-link" href="{% url 'users:list' %}">
                 {% trans "Users" %}
@@ -31,6 +31,13 @@
             </li>
 
             {% if request.user.is_authenticated %}
+              <!-- Statuses: только для залогиненных -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'statuses:list' %}">
+                  {% trans "Statuses" %}
+                </a>
+              </li>
+
               <!-- Logout -->
               <li class="nav-item">
                 <form method="post"
@@ -58,6 +65,7 @@
               </li>
             {% endif %}
           </ul>
+
         </div>
       </div>
     </nav>
