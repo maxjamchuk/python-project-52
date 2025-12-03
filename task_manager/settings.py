@@ -15,6 +15,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
+import rollbar
+from rollbar.contrib.django.middleware import RollbarNotifierMiddlewareExcluding404
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -57,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404",
 ]
 
 ROOT_URLCONF = 'task_manager.urls'
@@ -142,3 +146,32 @@ LOGOUT_REDIRECT_URL = "index"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ROLLBAR = {
+    "access_token": os.getenv("ROLLBAR_ACCESS_TOKEN", ""),
+    "environment": os.getenv("ROLLBAR_ENV", "development"),
+    "root": str(BASE_DIR),
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "rollbar": {
+            "level": "ERROR",
+            "class": "rollbar.logger.RollbarHandler",
+            "access_token": ROLLBAR["access_token"],
+            "environment": ROLLBAR["environment"],
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "rollbar"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    },
+}
