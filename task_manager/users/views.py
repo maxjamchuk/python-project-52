@@ -14,9 +14,9 @@ from .forms import CustomAuthenticationForm, UserRegistrationForm, UserUpdateFor
 User = get_user_model()
 
 
-class UserListView(ListView):
+class UsersListView(ListView):
     model = User
-    template_name = "users/list.html"
+    template_name = "users/index.html"
     context_object_name = "users"
 
 

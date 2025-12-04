@@ -25,9 +25,7 @@
 
             <!-- Пользователи: доступен всем -->
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'users:list' %}">
-                Пользователи
-              </a>
+              <a class="nav-link" href="{% url 'users:list' %}">Пользователи</a>
             </li>
 
             {% if request.user.is_authenticated %}
