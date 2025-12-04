@@ -31,3 +31,6 @@ packages = [
   "labels",
   "tasks",
 ]
+
+[tool.uv]
+compile-bytecode = false
