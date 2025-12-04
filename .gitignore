@@ -1,4 +1,12 @@
 .coverage
 .venv
-__pycache__
 .env
+*.egg-info
+__pycache__/
+dist/
+*.pyc
+coverage.xml
+*_cache/
+*.cast
+*.sqlite3
+db.sqlite3

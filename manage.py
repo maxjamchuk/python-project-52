@@ -2,26 +2,21 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-import subprocess
 
 
-def main() -> None:
+def main():
     """Run administrative tasks."""
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "task_manager.settings")
-
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'task_manager.settings')
     try:
-        import django  # noqa: F401  # просто проверка наличия
-    except ImportError:
-        if os.getenv("MANAGE_PY_UV_RUN") != "1":
-            os.environ["MANAGE_PY_UV_RUN"] = "1"
-            cmd = ["uv", "run", "python", "manage.py", *sys.argv[1:]]
-            os.execvp("uv", cmd)
-        raise
-
-    from django.core.management import execute_from_command_line
-
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
     execute_from_command_line(sys.argv)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
