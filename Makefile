@@ -1,7 +1,13 @@
-.PHONY: install lint test migrate collectstatic start render-start build
+.PHONY: install lint test migrate collectstatic start render-start build setup
 
 install:
 	uv sync
+
+lint:
+	uv run ruff check .
+
+test:
+	uv run pytest
 
 migrate:
 	uv run python manage.py migrate
@@ -17,3 +23,6 @@ render-start:
 
 build:
 	./build.sh
+
+setup:
+	@echo "Hexlet CI setup: nothing to do here (env will be prepared later)"
