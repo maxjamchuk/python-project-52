@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from .forms import UserRegistrationForm, UserUpdateForm
+from .forms import CustomAuthenticationForm, UserRegistrationForm, UserUpdateForm
 
 User = get_user_model()
 
@@ -83,3 +83,20 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LogoutView):
     http_method_names = ["post"]
+
+
+class CustomLoginView(LoginView):
+    template_name = "auth/login.html"
+    authentication_form = CustomAuthenticationForm
+
+    def form_valid(self, form):
+        messages.success(self.request, _("Вы залогинены"))
+        return super().form_valid(form)
+
+
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy("index")
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.info(self.request, _("Вы разлогинены"))
+        return super().dispatch(request, *args, **kwargs)
