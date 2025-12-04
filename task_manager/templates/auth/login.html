@@ -1,15 +1,40 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 i18n %}
+{% load django_bootstrap5 %}
 
-{% block title %}{% trans "Login" %}{% endblock %}
+{% block title %}Вход{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">{% trans "Login" %}</h1>
+  <h1 class="mb-4">Вход</h1>
+
   <form method="post">
     {% csrf_token %}
-    {% bootstrap_form form %}
+
+    <div class="mb-3">
+      <label for="id_username" class="form-label">Имя пользователя</label>
+      <input
+        type="text"
+        name="username"
+        id="id_username"
+        class="form-control"
+        placeholder="Имя пользователя"
+        required
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="id_password" class="form-label">Пароль</label>
+      <input
+        type="password"
+        name="password"
+        id="id_password"
+        class="form-control"
+        placeholder="Пароль"
+        required
+      >
+    </div>
+
     <button type="submit" class="btn btn-primary">
-      {% trans "Войти" %}
+      Войти
     </button>
   </form>
 {% endblock %}

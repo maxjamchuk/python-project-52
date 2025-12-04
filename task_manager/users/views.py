@@ -87,16 +87,18 @@ class UserLogoutView(LogoutView):
 
 class CustomLoginView(LoginView):
     template_name = "auth/login.html"
-    authentication_form = CustomAuthenticationForm
 
     def form_valid(self, form):
-        messages.success(self.request, _("Вы залогинены"))
+        messages.success(self.request, "Вы залогинены")
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("index")
 
 
 class CustomLogoutView(LogoutView):
     next_page = reverse_lazy("index")
 
     def dispatch(self, request, *args, **kwargs):
-        messages.info(self.request, _("Вы разлогинены"))
+        messages.success(request, "Вы разлогинены")
         return super().dispatch(request, *args, **kwargs)
