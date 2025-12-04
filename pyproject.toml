@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "coverage>=7.12.0",
     "dj-database-url>=3.0.1",
     "django>=5.2.8",
     "django-bootstrap5>=25.3",
@@ -20,4 +21,13 @@ dependencies = [
 exclude = [
     "task_manager/migrations",
     "task_manager/settings.py",
+]
+
+[tool.setuptools]
+packages = [
+  "task_manager",
+  "users",
+  "statuses",
+  "labels",
+  "tasks",
 ]
