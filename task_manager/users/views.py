@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from .forms import CustomAuthenticationForm, UserRegistrationForm, UserUpdateForm
+from .forms import CustomAuthenticationForm, UserRegisterForm, UserUpdateForm
 
 User = get_user_model()
 
@@ -22,13 +22,14 @@ class UsersListView(ListView):
 
 class UserCreateView(CreateView):
     model = User
-    form_class = UserRegistrationForm
+    form_class = UserRegisterForm
     template_name = "users/create.html"
     success_url = reverse_lazy("login")
 
     def form_valid(self, form):
-        messages.success(self.request, _("User has been successfully registered"))
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(self.request, "Пользователь успешно зарегистрирован")
+        return response
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
