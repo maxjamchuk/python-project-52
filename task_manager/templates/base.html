@@ -83,13 +83,7 @@
       </div>
     </nav>
 
-    <main class="container py-5">
-      {% bootstrap_messages %}
-      {% block content %}{% endblock %}
-    </main>
-  </body>
-
-  {% if messages %}
+    {% if messages %}
     <div class="container mt-3">
       {% for message in messages %}
         <div class="alert alert-{{ message.tags }}" role="alert">
@@ -97,6 +91,13 @@
         </div>
       {% endfor %}
     </div>
-  {% endif %}
+    {% endif %}
+
+    <main class="container py-5">
+      {% bootstrap_messages %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+
 
 </html>
