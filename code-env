@@ -1,0 +1,6 @@
+UV_PROJECT_ENVIRONMENT=/project/.venv
+PATH=/project/.venv/bin:$PATH
+UV_PYTHON=3.12
+DEBUG=False
+ALLOWED_HOSTS=webserver,localhost,127.0.0.1
+DJANGO_SETTINGS_MODULE=task_manager.settings
