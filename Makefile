@@ -6,20 +6,28 @@ install:
 lint:
 	uv run ruff check
 
-fix:
-	uv run ruff check --fix
-
-migrate:
-	uv run python manage.py migrate
-
-collectstatic:
-	uv run python manage.py collectstatic --noinput
+dev:
+	uv run manage.py runserver
 
 start:
-	uv run python manage.py runserver 0.0.0.0:8000
+	uv run gunicorn task_manager.asgi:application -k uvicorn.workers.UvicornWorker
 
 render-start:
 	gunicorn task_manager.wsgi
 
 build:
 	./build.sh
+
+migrate:
+	uv run manage.py migrate --run-syncdb
+
+migrations:
+	uv run manage.py makemigrations
+
+test:
+	uv run manage.py test task_manager
+
+coverage:
+	uv run coverage run manage.py test task_manager
+	uv run coverage xml
+	uv run coverage report
