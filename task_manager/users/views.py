@@ -39,14 +39,15 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("users:list")
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.pk != kwargs.get("pk"):
-            messages.error(self.request, _("You have no rights to edit this user"))
+        if self.get_object().pk != request.user.pk:
+            messages.error(request, "У вас нет прав для изменения другого пользователя")
             return redirect("users:list")
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        messages.success(self.request, _("User has been successfully updated"))
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(self.request, "Пользователь успешно изменен")
+        return response
 
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
