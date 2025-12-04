@@ -12,12 +12,6 @@ from .forms import TaskForm
 from .models import Task
 
 
-class TaskListView(LoginRequiredMixin, ListView):
-    model = Task
-    template_name = "tasks/list.html"
-    context_object_name = "tasks"
-
-
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = "tasks/detail.html"

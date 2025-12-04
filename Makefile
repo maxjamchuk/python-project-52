@@ -3,6 +3,12 @@
 install:
 	uv sync
 
+lint:
+	uv run ruff check
+
+fix:
+	uv run ruff check --fix
+
 migrate:
 	uv run python manage.py migrate
 
