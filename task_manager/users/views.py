@@ -56,23 +56,16 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("users:list")
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.pk != kwargs.get("pk"):
-            messages.error(self.request, _("You have no rights to delete this user"))
+        self.object = self.get_object()
+        if self.object != request.user:
+            messages.error(request, "У вас нет прав для удаления этого пользователя")
             return redirect("users:list")
         return super().dispatch(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        try:
-            messages.success(self.request, _("User has been successfully deleted"))
-            return super().delete(request, *args, **kwargs)
-        except ProtectedError:
-            messages.error(
-                self.request,
-                _("It is not possible to delete a user because it is in use"),
-            )
-            return redirect("users:list")
-
+        messages.success(request, "Пользователь успешно удален")
+        return super().post(request, *args, **kwargs)
 
 class UserLoginView(LoginView):
     template_name = "auth/login.html"
