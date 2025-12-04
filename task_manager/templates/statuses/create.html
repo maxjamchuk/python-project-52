@@ -1,16 +1,28 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 i18n %}
+{% load django_bootstrap5 %}
 
-{% block title %}{% trans "Create status" %}{% endblock %}
+{% block title %}Создать статус{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">{% trans "Create status" %}</h1>
+  <h1 class="mb-4">Создать статус</h1>
 
   <form method="post">
     {% csrf_token %}
-    {% bootstrap_form form %}
+
+    <div class="mb-3">
+      <label for="id_name" class="form-label">Имя</label>
+      <input
+        type="text"
+        name="name"
+        maxlength="100"
+        required
+        id="id_name"
+        class="form-control"
+      >
+    </div>
+
     <button type="submit" class="btn btn-primary">
-      {% trans "Create" %}
+      Создать
     </button>
   </form>
 {% endblock %}

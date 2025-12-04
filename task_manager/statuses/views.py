@@ -11,7 +11,7 @@ from .models import Status
 
 class StatusListView(LoginRequiredMixin, ListView):
     model = Status
-    template_name = "statuses/list.html"
+    template_name = "statuses/index.html"
     context_object_name = "statuses"
 
 
@@ -22,7 +22,7 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("statuses:list")
 
     def form_valid(self, form):
-        messages.success(self.request, _("Status has been created successfully"))
+        messages.success(self.request, _("Статус успешно создан"))
         return super().form_valid(form)
 
 
@@ -33,7 +33,7 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("statuses:list")
 
     def form_valid(self, form):
-        messages.success(self.request, _("Status has been updated successfully"))
+        messages.success(self.request, _("Статус успешно обновлен"))
         return super().form_valid(form)
 
 
@@ -47,12 +47,12 @@ class StatusDeleteView(LoginRequiredMixin, DeleteView):
         try:
             messages.success(
                 request,
-                _("Status has been deleted successfully"),
+                _("Статус успешно удален"),
             )
             return super().post(request, *args, **kwargs)
         except ProtectedError:
             messages.error(
                 request,
-                _("It is not possible to delete a status because it is in use"),
+                _("У вас нет прав для удаления этого статуса"),
             )
             return redirect("statuses:list")
