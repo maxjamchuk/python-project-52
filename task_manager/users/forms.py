@@ -6,7 +6,7 @@ User = get_user_model()
 
 
 USERNAME_LABEL = "Имя пользователя"
-PASSWORD_LABEL = "Пароль"
+PWD_LABEL = "Пароль"
 
 
 class UserRegisterForm(UserCreationForm):
@@ -26,7 +26,7 @@ class UserRegisterForm(UserCreationForm):
         required=True,
     )
     password1 = forms.CharField(
-        label=PASSWORD_LABEL,
+        label=PWD_LABEL,
         strip=False,
         widget=forms.PasswordInput,
     )
@@ -64,7 +64,7 @@ class UserUpdateForm(forms.ModelForm):
         required=True,
     )
     password1 = forms.CharField(
-        label=PASSWORD_LABEL,
+        label=PWD_LABEL,
         widget=forms.PasswordInput,
         required=False,
     )
@@ -112,4 +112,4 @@ class CustomAuthenticationForm(AuthenticationForm):
         self.fields["username"].\
             widget.attrs["placeholder"] = USERNAME_LABEL
         self.fields["password"].\
-            widget.attrs["placeholder"] = PASSWORD_LABEL
+            widget.attrs["placeholder"] = PWD_LABEL
