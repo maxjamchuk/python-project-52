@@ -1,46 +1,52 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Task Manager" %}{% endblock %}
+{% block title %}Менеджер задач{% endblock %}
 
 {% block content %}
   <div class="d-flex flex-column gap-4">
+
     <div>
       <span class="badge bg-primary-subtle text-primary border border-primary mb-3">
-        {% trans "Django & Bootstrap powered" %}
+        Основано на Django и Bootstrap
       </span>
+
       <h1 class="display-5 fw-bold mb-3">
-        {% trans "Task Manager" %}
+        Менеджер задач
       </h1>
+
       <p class="lead mb-4 text-muted">
-        {% trans "Simple web application to manage tasks, statuses, labels and performers." %}
+        Простое и удобное веб-приложение для управления задачами, статусами,
+        метками и исполнителями.
       </p>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-3">
       <div class="col-md-4">
         <div class="h-100 p-3 p-md-4 rounded-3 bg-body border">
-          <h2 class="h5 fw-semibold mb-2">🧩 {% trans "Tasks" %}</h2>
+          <h2 class="h5 fw-semibold mb-2">🧩 Задачи</h2>
           <p class="mb-0 small text-muted">
-            {% trans "Create, update and track tasks with statuses, executors and labels." %}
+            Создавайте, изменяйте и отслеживайте задачи со статусами,
+            исполнителями и метками.
           </p>
         </div>
       </div>
 
       <div class="col-md-4">
         <div class="h-100 p-3 p-md-4 rounded-3 bg-body border">
-          <h2 class="h5 fw-semibold mb-2">🏷 {% trans "Labels & statuses" %}</h2>
+          <h2 class="h5 fw-semibold mb-2">🏷 Метки и статусы</h2>
           <p class="mb-0 small text-muted">
-            {% trans "Group tasks by labels and statuses to keep your board under control." %}
+            Группируйте задачи по меткам и управляйте их статусами,
+            чтобы поддерживать порядок в работе.
           </p>
         </div>
       </div>
 
       <div class="col-md-4">
         <div class="h-100 p-3 p-md-4 rounded-3 bg-body border">
-          <h2 class="h5 fw-semibold mb-2">👥 {% trans "Users" %}</h2>
+          <h2 class="h5 fw-semibold mb-2">👥 Пользователи</h2>
           <p class="mb-0 small text-muted">
-            {% trans "Register, sign in and manage your own tasks only." %}
+            Регистрируйтесь, входите в систему и управляйте только своими задачами.
           </p>
         </div>
       </div>
@@ -49,19 +55,20 @@
     <div class="d-flex flex-wrap gap-2 mt-3">
       {% if request.user.is_authenticated %}
         <a href="{% url 'tasks:list' %}" class="btn btn-primary btn-lg">
-          {% trans "Go to tasks" %}
+          Перейти к задачам
         </a>
         <a href="{% url 'users:list' %}" class="btn btn-outline-secondary btn-lg">
-          {% trans "See all users" %}
+          Посмотреть пользователей
         </a>
       {% else %}
         <a href="{% url 'login' %}" class="btn btn-primary btn-lg">
-          {% trans "Sign in" %}
+          Войти
         </a>
         <a href="{% url 'users:create' %}" class="btn btn-outline-light btn-lg">
-          {% trans "Sign up" %}
+          Зарегистрироваться
         </a>
       {% endif %}
     </div>
+
   </div>
 {% endblock %}

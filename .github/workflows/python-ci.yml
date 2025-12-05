@@ -31,3 +31,5 @@ jobs:
             -Dsonar.projectKey=maxjamchuk_python-project-52
             -Dsonar.organization=maxjamchuk
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.cpd.exclusions=**/templates/tasks/create.html,**/templates/tasks/update.html
+

@@ -55,11 +55,12 @@
 
               <!-- Выход -->
               <li class="nav-item ms-lg-3">
-                <form method="post"
-                      action="{% url 'logout' %}"
-                      class="d-inline">
+                <form method="post" action="{% url 'logout' %}">
                   {% csrf_token %}
-                  <button class="btn btn-outline-light btn-sm" type="submit">
+                  <button
+                    type="submit"
+                    class="nav-link bg-transparent border-0 p-0 pt-2"
+                  >
                     Выход
                   </button>
                 </form>
