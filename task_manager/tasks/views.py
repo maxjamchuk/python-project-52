@@ -18,6 +18,22 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "task"
 
 
+class TaskListView(LoginRequiredMixin, FilterView):
+    model = Task
+    filterset_class = TaskFilter
+    template_name = "tasks/index.html"
+    context_object_name = "tasks"
+
+    def get_queryset(self):
+        qs = (
+            super()
+            .get_queryset()
+            .select_related("status", "author", "executor")
+            .prefetch_related("labels")
+        )
+        return qs
+
+
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
@@ -25,8 +41,9 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("tasks:list")
 
     def form_valid(self, form):
+        # автор — залогиненный пользователь
         form.instance.author = self.request.user
-        messages.success(self.request, _("Task has been created successfully"))
+        messages.success(self.request, _("Задача успешно создана"))
         return super().form_valid(form)
 
 
@@ -37,7 +54,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("tasks:list")
 
     def form_valid(self, form):
-        messages.success(self.request, _("Task has been updated successfully"))
+        messages.success(self.request, _("Задача успешно изменена"))
         return super().form_valid(form)
 
 
@@ -46,33 +63,12 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "tasks/delete.html"
     success_url = reverse_lazy("tasks:list")
 
-    def dispatch(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.author != request.user:
-            messages.error(
-                request,
-                _("You have no rights to delete this task"),
-            )
+            messages.error(request, _("Задачу может удалить только её автор"))
             return redirect("tasks:list")
-        return super().dispatch(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, _("Task has been deleted successfully"))
-        return super().delete(request, *args, **kwargs)
+        messages.success(request, _("Задача успешно удалена"))
+        return super().post(request, *args, **kwargs)
 
-
-
-class TaskListView(LoginRequiredMixin, FilterView):
-    model = Task
-    template_name = "tasks/list.html"
-    context_object_name = "tasks"
-    filterset_class = TaskFilter
-
-    def get_queryset(self):
-        qs = (
-            super()
-            .get_queryset()
-            .select_related("status", "author", "executor")
-            .prefetch_related("labels")
-        )
-        return qs
