@@ -15,8 +15,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
-import rollbar
-from rollbar.contrib.django.middleware import RollbarNotifierMiddlewareExcluding404
+from django.core.management.utils import get_random_secret_key
 
 load_dotenv()
 
@@ -28,7 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    SECRET_KEY = get_random_secret_key()
+
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "webserver,localhost,127.0.0.1").split(",")
