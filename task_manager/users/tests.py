@@ -49,7 +49,6 @@ class UserCrudTests(TestCase):
         self.user1.refresh_from_db()
         self.assertEqual(self.user1.first_name, "John")
 
-
     def test_user_update_other_forbidden(self):
         self.client.login(username="user1", password="password123")
         url = reverse("users:update", args=[self.user2.pk])
