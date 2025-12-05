@@ -7,6 +7,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from .forms import LabelForm
 from .models import Label
+from task_manager.tasks.models import Task
 
 
 class LabelListView(LoginRequiredMixin, ListView):
@@ -45,15 +46,15 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
 
-        if Label.objects.exists():
+        if Task.objects.filter(labels=self.object).exists():
             messages.error(
                 request,
-                _("Невозможно удалить статус"),
+                _("Невозможно удалить метку"),
             )
             return redirect(self.success_url)
 
         messages.success(
             request,
-            _("Статус успешно удален"),
+            _("Метка успешно удалена"),
         )
         return super().post(request, *args, **kwargs)
