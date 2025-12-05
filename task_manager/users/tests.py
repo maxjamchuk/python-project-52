@@ -27,6 +27,8 @@ class UserCrudTests(TestCase):
     def test_user_create(self):
         url = reverse("users:create")
         data = {
+            "first_name": "John",
+            "last_name": "Doe",
             "username": "newuser",
             "password1": "strongpassword123",
             "password2": "strongpassword123",

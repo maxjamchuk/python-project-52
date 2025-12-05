@@ -61,7 +61,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404",
 ]
 
 ROOT_URLCONF = 'task_manager.urls'
@@ -99,20 +98,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+AUTH_PASSWORD_VALIDATORS = []
 
 
 # Internationalization
@@ -154,25 +140,30 @@ ROLLBAR = {
     "root": str(BASE_DIR),
 }
 
+USE_ROLLBAR = bool(ROLLBAR["access_token"]) and not DEBUG
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
-        "rollbar": {
-            "level": "ERROR",
-            "class": "rollbar.logger.RollbarHandler",
-            "access_token": ROLLBAR["access_token"],
-            "environment": ROLLBAR["environment"],
-        },
         "console": {
             "class": "logging.StreamHandler",
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "rollbar"],
+            "handlers": ["console"],
             "level": "ERROR",
             "propagate": True,
         },
     },
 }
+
+if USE_ROLLBAR:
+    LOGGING["handlers"]["rollbar"] = {
+        "level": "ERROR",
+        "class": "rollbar.logger.RollbarHandler",
+        "access_token": ROLLBAR["access_token"],
+        "environment": ROLLBAR["environment"],
+    }
+    LOGGING["loggers"]["django"]["handlers"].append("rollbar")
