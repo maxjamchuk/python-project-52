@@ -9,10 +9,13 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
   </head>
-  <body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <body class="bg-dark text-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">Менеджер задач</a>
+        <a class="navbar-brand fw-bold" href="{% url 'index' %}">
+          🧩 Менеджер задач
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarMain" aria-controls="navbarMain"
@@ -23,7 +26,7 @@
         <div class="collapse navbar-collapse" id="navbarMain">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-            <!-- Пользователи: доступен всем -->
+            <!-- Пользователи: доступны всем -->
             <li class="nav-item">
               <a class="nav-link" href="{% url 'users:list' %}">Пользователи</a>
             </li>
@@ -51,12 +54,12 @@
               </li>
 
               <!-- Выход -->
-              <li class="nav-item">
+              <li class="nav-item ms-lg-3">
                 <form method="post"
                       action="{% url 'logout' %}"
                       class="d-inline">
                   {% csrf_token %}
-                  <button class="nav-link btn btn-link p-0" type="submit">
+                  <button class="btn btn-outline-light btn-sm" type="submit">
                     Выход
                   </button>
                 </form>
@@ -81,21 +84,17 @@
       </div>
     </nav>
 
-    {% if messages %}
-    <div class="container mt-3">
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}" role="alert">
-          {{ message }}
-        </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-
-    <main class="container py-5">
+    <main class="container my-5">
       {% bootstrap_messages %}
-      {% block content %}{% endblock %}
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+          <div class="bg-light text-dark rounded-4 shadow-lg p-4 p-md-5">
+            {% block content %}{% endblock %}
+          </div>
+        </div>
+      </div>
     </main>
+
   </body>
-
-
 </html>

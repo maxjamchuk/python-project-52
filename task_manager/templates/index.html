@@ -4,20 +4,64 @@
 {% block title %}{% trans "Task Manager" %}{% endblock %}
 
 {% block content %}
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
-        <div class="container-fluid py-3">
-          <h1 class="display-5 fw-bold mb-3">{% trans "Task Manager" %}</h1>
-          <p class="lead mb-4">
-            {% trans "Simple web application to manage tasks, statuses and performers." %}
-          </p>
-          <hr class="my-4">
-          <p class="mb-0">
-            {% trans "Use the navigation bar to sign in, sign up or see the list of users." %}
+  <div class="d-flex flex-column gap-4">
+    <div>
+      <span class="badge bg-primary-subtle text-primary border border-primary mb-3">
+        {% trans "Django & Bootstrap powered" %}
+      </span>
+      <h1 class="display-5 fw-bold mb-3">
+        {% trans "Task Manager" %}
+      </h1>
+      <p class="lead mb-4 text-muted">
+        {% trans "Simple web application to manage tasks, statuses, labels and performers." %}
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="h-100 p-3 p-md-4 rounded-3 bg-body border">
+          <h2 class="h5 fw-semibold mb-2">🧩 {% trans "Tasks" %}</h2>
+          <p class="mb-0 small text-muted">
+            {% trans "Create, update and track tasks with statuses, executors and labels." %}
           </p>
         </div>
       </div>
+
+      <div class="col-md-4">
+        <div class="h-100 p-3 p-md-4 rounded-3 bg-body border">
+          <h2 class="h5 fw-semibold mb-2">🏷 {% trans "Labels & statuses" %}</h2>
+          <p class="mb-0 small text-muted">
+            {% trans "Group tasks by labels and statuses to keep your board under control." %}
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="h-100 p-3 p-md-4 rounded-3 bg-body border">
+          <h2 class="h5 fw-semibold mb-2">👥 {% trans "Users" %}</h2>
+          <p class="mb-0 small text-muted">
+            {% trans "Register, sign in and manage your own tasks only." %}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mt-3">
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'tasks:list' %}" class="btn btn-primary btn-lg">
+          {% trans "Go to tasks" %}
+        </a>
+        <a href="{% url 'users:list' %}" class="btn btn-outline-secondary btn-lg">
+          {% trans "See all users" %}
+        </a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg">
+          {% trans "Sign in" %}
+        </a>
+        <a href="{% url 'users:create' %}" class="btn btn-outline-light btn-lg">
+          {% trans "Sign up" %}
+        </a>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

@@ -9,7 +9,30 @@
   <form method="post">
     {% csrf_token %}
 
-    {% include "tasks/_form_fields.html" %}
+    <div class="mb-3">
+      <label class="form-label" for="id_name">Имя</label>
+      {{ form.name }}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="id_description">Описание</label>
+      {{ form.description }}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="id_status">Статус</label>
+      {{ form.status }}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="id_executor">Исполнитель</label>
+      {{ form.executor }}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="id_labels">Метки</label>
+      {{ form.labels }}
+    </div>
 
     <button type="submit" class="btn btn-primary">
       Создать
