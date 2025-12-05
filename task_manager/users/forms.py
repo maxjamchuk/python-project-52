@@ -1,7 +1,4 @@
-
-
 from django import forms
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
@@ -111,5 +108,7 @@ class UserUpdateForm(forms.ModelForm):
 class CustomAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["username"].widget.attrs["placeholder"] = "Имя пользователя"
-        self.fields["password"].widget.attrs["placeholder"] = "Пароль"
+        self.fields["username"].\
+            widget.attrs["placeholder"] = "Имя пользователя"
+        self.fields["password"].\
+            widget.attrs["placeholder"] = "Пароль"

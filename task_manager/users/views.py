@@ -3,13 +3,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from .forms import CustomAuthenticationForm, UserRegisterForm, UserUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm
 
 User = get_user_model()
 
@@ -28,7 +27,9 @@ class UserCreateView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, "Пользователь успешно зарегистрирован")
+        messages.success(
+            self.request, "Пользователь успешно зарегистрирован"
+        )
         return response
 
 
@@ -40,7 +41,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().pk != request.user.pk:
-            messages.error(request, "У вас нет прав для изменения другого пользователя")
+            messages.error(
+                request, "У вас нет прав для изменения другого пользователя"
+            )
             return redirect("users:list")
         return super().dispatch(request, *args, **kwargs)
 
@@ -58,7 +61,9 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object != request.user:
-            messages.error(request, "У вас нет прав для изменения другого пользователя")
+            messages.error(
+                request, "У вас нет прав для изменения другого пользователя"
+            )
             return redirect("users:list")
         return super().dispatch(request, *args, **kwargs)
 
@@ -66,6 +71,7 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         self.object = self.get_object()
         messages.success(request, "Пользователь успешно удален")
         return super().post(request, *args, **kwargs)
+
 
 class UserLoginView(LoginView):
     template_name = "auth/login.html"

@@ -24,7 +24,8 @@ dev = [
 ]
 
 [tool.ruff]
-line-length = 120
-select = ["E", "W", "F", "I"]
-ignore = ["F401", "I001"]
+line-length = 79
 extend-exclude = ["venv", ".venv", "migrations", "task_manager/settings.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
