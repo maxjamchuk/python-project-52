@@ -58,7 +58,7 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object != request.user:
-            messages.error(request, "У вас нет прав для удаления этого пользователя")
+            messages.error(request, "У вас нет прав для изменения другого пользователя")
             return redirect("users:list")
         return super().dispatch(request, *args, **kwargs)
 
@@ -72,7 +72,7 @@ class UserLoginView(LoginView):
     form_class = AuthenticationForm
 
     def form_valid(self, form):
-        messages.success(self.request, _("You are logged in"))
+        messages.success(self.request, _("Вы залогинены"))
         return super().form_valid(form)
 
 
