@@ -89,9 +89,8 @@ class UserUpdateForm(forms.ModelForm):
         p1 = cleaned_data.get("password1")
         p2 = cleaned_data.get("password2")
 
-        if p1 or p2:
-            if p1 != p2:
-                raise forms.ValidationError("Пароли не совпадают")
+        if (p1 or p2) and p1 != p2:
+            raise forms.ValidationError("Пароли не совпадают")
 
         return cleaned_data
 
