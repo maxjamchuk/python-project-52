@@ -5,6 +5,10 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 User = get_user_model()
 
 
+USERNAME_LABEL = "Имя пользователя"
+PASSWORD_LABEL = "Пароль"
+
+
 class UserRegisterForm(UserCreationForm):
     first_name = forms.CharField(
         max_length=150,
@@ -18,11 +22,11 @@ class UserRegisterForm(UserCreationForm):
     )
     username = forms.CharField(
         max_length=150,
-        label="Имя пользователя",
+        label=USERNAME_LABEL,
         required=True,
     )
     password1 = forms.CharField(
-        label="Пароль",
+        label=PASSWORD_LABEL,
         strip=False,
         widget=forms.PasswordInput,
     )
@@ -55,12 +59,12 @@ class UserUpdateForm(forms.ModelForm):
         required=True,
     )
     username = forms.CharField(
-        label="Имя пользователя",
+        label=USERNAME_LABEL,
         max_length=150,
         required=True,
     )
     password1 = forms.CharField(
-        label="Пароль",
+        label=PASSWORD_LABEL,
         widget=forms.PasswordInput,
         required=False,
     )
@@ -85,11 +89,9 @@ class UserUpdateForm(forms.ModelForm):
         p1 = cleaned_data.get("password1")
         p2 = cleaned_data.get("password2")
 
-        if not p1 and not p2:
-            return cleaned_data
-
-        if p1 != p2:
-            raise forms.ValidationError("Пароли не совпадают")
+        if p1 or p2:
+            if p1 != p2:
+                raise forms.ValidationError("Пароли не совпадают")
 
         return cleaned_data
 
@@ -109,6 +111,6 @@ class CustomAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["username"].\
-            widget.attrs["placeholder"] = "Имя пользователя"
+            widget.attrs["placeholder"] = USERNAME_LABEL
         self.fields["password"].\
-            widget.attrs["placeholder"] = "Пароль"
+            widget.attrs["placeholder"] = PASSWORD_LABEL

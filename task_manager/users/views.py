@@ -13,6 +13,9 @@ from .forms import UserRegisterForm, UserUpdateForm
 User = get_user_model()
 
 
+USERS_LIST_ROUTE = "users:list"
+
+
 class UsersListView(ListView):
     model = User
     template_name = "users/index.html"
@@ -37,14 +40,14 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     template_name = "users/update.html"
-    success_url = reverse_lazy("users:list")
+    success_url = reverse_lazy(USERS_LIST_ROUTE)
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().pk != request.user.pk:
             messages.error(
                 request, "У вас нет прав для изменения другого пользователя"
             )
-            return redirect("users:list")
+            return redirect(USERS_LIST_ROUTE)
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -56,7 +59,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
     template_name = "users/delete.html"
-    success_url = reverse_lazy("users:list")
+    success_url = reverse_lazy(USERS_LIST_ROUTE)
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -64,7 +67,7 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
             messages.error(
                 request, "У вас нет прав для изменения другого пользователя"
             )
-            return redirect("users:list")
+            return redirect(USERS_LIST_ROUTE)
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):

@@ -9,6 +9,8 @@ from task_manager.tasks.models import Task
 
 from .models import Status
 
+STATUSES_LIST_ROUTE = "statuses:list"
+
 
 class StatusListView(LoginRequiredMixin, ListView):
     model = Status
@@ -20,7 +22,7 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
     model = Status
     fields = ("name",)
     template_name = "statuses/create.html"
-    success_url = reverse_lazy("statuses:list")
+    success_url = reverse_lazy(STATUSES_LIST_ROUTE)
 
     def form_valid(self, form):
         messages.success(self.request, _("Статус успешно создан"))
@@ -31,7 +33,7 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
     model = Status
     fields = ("name",)
     template_name = "statuses/update.html"
-    success_url = reverse_lazy("statuses:list")
+    success_url = reverse_lazy(STATUSES_LIST_ROUTE)
 
     def form_valid(self, form):
         messages.success(self.request, _("Статус успешно изменен"))
@@ -41,7 +43,7 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
 class StatusDeleteView(LoginRequiredMixin, DeleteView):
     model = Status
     template_name = "statuses/delete.html"
-    success_url = reverse_lazy("statuses:list")
+    success_url = reverse_lazy(STATUSES_LIST_ROUTE)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()

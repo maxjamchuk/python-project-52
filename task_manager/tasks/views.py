@@ -10,6 +10,8 @@ from .filters import TaskFilter
 from .forms import TaskForm
 from .models import Task
 
+TASKS_LIST_ROUTE = "tasks:list"
+
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
@@ -37,7 +39,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = "tasks/create.html"
-    success_url = reverse_lazy("tasks:list")
+    success_url = reverse_lazy(TASKS_LIST_ROUTE)
 
     def form_valid(self, form):
         # автор — залогиненный пользователь
@@ -50,7 +52,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = "tasks/update.html"
-    success_url = reverse_lazy("tasks:list")
+    success_url = reverse_lazy(TASKS_LIST_ROUTE)
 
     def form_valid(self, form):
         messages.success(self.request, _("Задача успешно изменена"))
@@ -60,7 +62,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "tasks/delete.html"
-    success_url = reverse_lazy("tasks:list")
+    success_url = reverse_lazy(TASKS_LIST_ROUTE)
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()

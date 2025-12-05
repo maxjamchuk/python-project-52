@@ -10,6 +10,8 @@ from task_manager.tasks.models import Task
 from .forms import LabelForm
 from .models import Label
 
+LABELS_LIST_ROUTE = "labels:list"
+
 
 class LabelListView(LoginRequiredMixin, ListView):
     model = Label
@@ -21,7 +23,7 @@ class LabelCreateView(LoginRequiredMixin, CreateView):
     model = Label
     form_class = LabelForm
     template_name = "labels/create.html"
-    success_url = reverse_lazy("labels:list")
+    success_url = reverse_lazy(LABELS_LIST_ROUTE)
 
     def form_valid(self, form):
         messages.success(self.request, _("Метка успешно создана"))
@@ -32,7 +34,7 @@ class LabelUpdateView(LoginRequiredMixin, UpdateView):
     model = Label
     form_class = LabelForm
     template_name = "labels/update.html"
-    success_url = reverse_lazy("labels:list")
+    success_url = reverse_lazy(LABELS_LIST_ROUTE)
 
     def form_valid(self, form):
         messages.success(self.request, _("Метка успешно изменена"))
@@ -42,7 +44,7 @@ class LabelUpdateView(LoginRequiredMixin, UpdateView):
 class LabelDeleteView(LoginRequiredMixin, DeleteView):
     model = Label
     template_name = "labels/delete.html"
-    success_url = reverse_lazy("labels:list")
+    success_url = reverse_lazy(LABELS_LIST_ROUTE)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
