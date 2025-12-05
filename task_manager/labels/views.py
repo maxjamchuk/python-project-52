@@ -5,34 +5,35 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
+from .forms import LabelForm
 from .models import Label
 
 
 class LabelListView(LoginRequiredMixin, ListView):
     model = Label
-    template_name = "labels/list.html"
+    template_name = "labels/index.html"
     context_object_name = "labels"
 
 
 class LabelCreateView(LoginRequiredMixin, CreateView):
     model = Label
-    fields = ("name",)
+    form_class = LabelForm
     template_name = "labels/create.html"
     success_url = reverse_lazy("labels:list")
 
     def form_valid(self, form):
-        messages.success(self.request, _("Label has been created successfully"))
+        messages.success(self.request, _("Метка успешно создана"))
         return super().form_valid(form)
 
 
 class LabelUpdateView(LoginRequiredMixin, UpdateView):
     model = Label
-    fields = ("name",)
+    form_class = LabelForm
     template_name = "labels/update.html"
     success_url = reverse_lazy("labels:list")
 
     def form_valid(self, form):
-        messages.success(self.request, _("Label has been updated successfully"))
+        messages.success(self.request, _("Метка успешно изменена"))
         return super().form_valid(form)
 
 
@@ -46,13 +47,13 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
         if self.object.tasks.exists():
             messages.error(
                 request,
-                _("It is not possible to delete a label because it is in use"),
+                _("У вас нет прав для удаления этой метки"),
             )
             return redirect("labels:list")
 
         messages.success(
             request,
-            _("Label has been deleted successfully"),
+            _("Метка успешно удалена"),
         )
         return super().post(request, *args, **kwargs)
 

@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 i18n %}
+{% load django_bootstrap5 %}
 
-{% block title %}{% trans "Create label" %}{% endblock %}
+{% block title %}Создать метку{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">{% trans "Create label" %}</h1>
+  <h1 class="mb-4">Создать метку</h1>
 
   <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button type="submit" class="btn btn-primary">
-      {% trans "Create" %}
+      Создать
     </button>
   </form>
 {% endblock %}

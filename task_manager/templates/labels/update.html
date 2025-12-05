@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 i18n %}
+{% load django_bootstrap5 %}
 
-{% block title %}{% trans "Update label" %}{% endblock %}
+{% block title %}Изменение метки{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">{% trans "Update label" %}</h1>
+  <h1 class="mb-4">Изменение метки</h1>
 
   <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button type="submit" class="btn btn-primary">
-      {% trans "Save" %}
+      Изменить
     </button>
   </form>
 {% endblock %}
