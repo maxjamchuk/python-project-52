@@ -53,6 +53,6 @@ class StatusDeleteView(LoginRequiredMixin, DeleteView):
         except ProtectedError:
             messages.error(
                 request,
-                _("У вас нет прав для удаления этого статуса"),
+                _("Невозможно удалить статус"),
             )
             return redirect("statuses:list")
