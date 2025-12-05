@@ -1,21 +1,17 @@
 {% extends "base.html" %}
-{% load i18n %}
 
-{% block title %}{% trans "Delete status" %}{% endblock %}
+{% block title %}Удаление статуса{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">{% trans "Delete status" %}</h1>
+  <h1 class="mb-4">Удаление статуса</h1>
 
-  <p>
-    {% blocktrans with name=object.name %}
-      Are you sure you want to delete status "{{ name }}"?
-    {% endblocktrans %}
-  </p>
+  <p>Вы уверены, что хотите удалить статус {{ name }}?</p>
 
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">
-      {% trans "Yes, delete" %}
+      Да, удалить
     </button>
   </form>
 {% endblock %}
+
